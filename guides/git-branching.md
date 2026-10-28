@@ -1,6 +1,6 @@
 # Git branching: the basic cycle
 
-2026-10-28. Copied from the claude.ai doc of the same name.
+2026-10-28. Copied from the claude.ai doc of the same name; the Worktrees section was added here later, so this file is the newer copy.
 
 ## Words you need
 
@@ -81,10 +81,52 @@ None of these break anything, but each looks like a problem the first time.
 | A command changed the wrong project | The terminal was in another repo's folder. | Check the prompt or `git status` before you commit. |
 | Push fails with `Repository not found`, and you have two GitHub accounts | Git used the other account's login. | Put the account in the remote URL: `https://<account>@github.com/<account>/<repo>.git`. |
 
+## Worktrees: a second folder
+
+When two Claude sessions work at the same time, give each its own folder. A worktree is a second folder of the same repo with another branch checked out. Both folders share one history, branches and git config, so nothing is pushed or pulled between them: a commit made in one folder shows up in `git log` of the other right away.
+
+Three rules:
+- **Only tracked files come along.** Gitignored files (local notes, local Claude settings, extracted data) stay behind: copy them in, or point the project to the main folder's copy.
+- **One branch, one folder.** A branch checked out in one folder can't be checked out in another, so merge from the folder that has `main`.
+- **Put it next to the project** (`..\<repo>-wt`) when the project looks for sibling folders, such as a test data folder next to it.
+
+| Step | Where | What |
+| --- | --- | --- |
+| 1. Create | main folder | `git worktree add "<sibling folder>" -b <name>`, then `git worktree list` shows both folders, each with its branch. |
+| 2. Set up | | Copy the gitignored files a session needs. Open the folder in its own window with `code "<worktree>"` and start a Claude chat there. (`code <file>` opens a tab in the current window instead.) |
+| 3. Work and commit | worktree | Edit, `git diff`, `git add <file>`, `git commit -m "<message>"`. From the main folder's terminal, add `-C "<worktree>"` after `git`. |
+| 4. Merge | main folder | `git merge <name>`. You see `Fast-forward` when `main` had no new commits. |
+| 5. Clean up | main folder | Close the worktree's files and window. `git worktree remove "<worktree>"`, then `git branch -d <name>` (in this order). |
+| 6. Push | main folder | `git push`. |
+
+The whole cycle to copy (from the main folder):
+
+```powershell
+git worktree add "<sibling folder>" -b <name>
+git worktree list
+# edit and save in the worktree, then:
+git -C "<sibling folder>" diff
+git -C "<sibling folder>" add <file>
+git -C "<sibling folder>" commit -m "<message>"
+git merge <name>
+git worktree remove "<sibling folder>"
+git branch -d <name>
+git push
+```
+
+| What you see | What it means | What to do |
+| --- | --- | --- |
+| `fatal: 'main' is already used by worktree at ...` | That branch is checked out in the other folder. | Work with it in that folder. |
+| `git branch -d` refuses: the branch is checked out | Its worktree still exists. | `git worktree remove` first. |
+| `git worktree remove` refuses | The worktree has uncommitted or untracked files. | Commit or copy them. `--force` throws them away. |
+| The folder was deleted by hand | Git still lists the worktree. | `git worktree prune` clears the stale entry. |
+
+**Built into Claude Code.** `claude --worktree <name>`, or asking Claude to "work in a worktree", makes the worktree for you in `.claude/worktrees/<name>/` on a branch `worktree-<name>`. A `.worktreeinclude` file in the project (`.gitignore` syntax) lists the gitignored files to copy in. When the session ends, Claude asks whether to keep or remove the worktree; merging is still yours. Two catches:
+- It branches from GitHub's `main` (`origin/main`), so unpushed commits are missing unless the project's settings have `"worktree": {"baseRef": "head"}`.
+- The worktree sits inside the project, so a project that looks for sibling folders doesn't find them there. Use the manual steps above for such a project.
+
 ## What comes next
 
-Two things build on this cycle; practise each on a throwaway repo before using it on a real project.
+One more thing builds on this cycle; practise it on a throwaway repo before using it on a real project.
 
 **Merge commits and conflicts.** When `main` also got new commits while you worked on the branch, `git merge` cannot fast-forward and makes a merge commit instead. If both sides changed the same lines, git stops with a conflict and marks the file with `<<<<<<<`, `=======` and `>>>>>>>` sections. VS Code shows buttons above each one (Accept Current, Accept Incoming, Accept Both). Pick the right text, save, then `git add <file>` and `git commit`.
-
-**Worktrees for parallel Claude sessions.** One folder holds one branch at a time, so two sessions in one folder always share a branch. `git worktree add -b <name> ../<repo>-<name>` makes a second folder on a new branch; start a Claude session there, merge the branch when it is tested, then `git worktree remove ../<repo>-<name>`. Gitignored files (local settings, extracted data, local notes) are not in the new folder: copy them or point the project to them.
