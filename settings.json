@@ -4,5 +4,13 @@
       "effortLevel": "xhigh"
     }
   },
-  "theme": "dark"
+  "theme": "dark",
+  "env": {
+    "PYTHONIOENCODING": "utf-8"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": "",
+    "sessionUrl": false
+  }
 }
