@@ -93,10 +93,10 @@ Three rules:
 | Step | Where | What |
 | --- | --- | --- |
 | 1. Create | main folder | `git worktree add "<sibling folder>" -b <name>`, then `git worktree list` shows both folders, each with its branch. |
-| 2. Set up | | Copy the gitignored files a session needs. Open the folder in its own window with `code "<worktree>"` and start a Claude chat there. (`code <file>` opens a tab in the current window instead.) |
+| 2. Set up | | Copy the gitignored files a session needs. For a big gitignored folder (extracted data), link it instead of copying: `New-Item -ItemType Junction -Path "<worktree>\<folder>" -Target "<main folder>\<folder>"`. Open the folder in its own window with `code "<worktree>"` and start a Claude chat there. (`code <file>` opens a tab in the current window instead.) |
 | 3. Work and commit | worktree | Edit, `git diff`, `git add <file>`, `git commit -m "<message>"`. From the main folder's terminal, add `-C "<worktree>"` after `git`. |
 | 4. Merge | main folder | `git merge <name>`. You see `Fast-forward` when `main` had no new commits. |
-| 5. Clean up | main folder | Close the worktree's files and window. `git worktree remove "<worktree>"`, then `git branch -d <name>` (in this order). |
+| 5. Clean up | main folder | Close the worktree's files and window (a running Claude chat keeps the folder in use). Copy back any gitignored file the session changed, such as local notes: `git worktree remove` deletes them too, without asking. Remove a junction with `cmd /c rmdir "<worktree>\<folder>"` (deletes only the link). Then `git worktree remove "<worktree>"` and `git branch -d <name>` (in this order). |
 | 6. Push | main folder | `git push`. |
 
 The whole cycle to copy (from the main folder):
@@ -109,6 +109,8 @@ git -C "<sibling folder>" diff
 git -C "<sibling folder>" add <file>
 git -C "<sibling folder>" commit -m "<message>"
 git merge <name>
+# copy back changed gitignored files; if you linked a folder in:
+cmd /c rmdir "<sibling folder>\<folder>"
 git worktree remove "<sibling folder>"
 git branch -d <name>
 git push
@@ -120,6 +122,7 @@ git push
 | `git branch -d` refuses: the branch is checked out | Its worktree still exists. | `git worktree remove` first. |
 | `git worktree remove` refuses | The worktree has uncommitted or untracked files. | Commit or copy them. `--force` throws them away. |
 | The folder was deleted by hand | Git still lists the worktree. | `git worktree prune` clears the stale entry. |
+| After `git worktree remove` the folder is still there, with only a junction in it | Git removed everything else but doesn't follow a junction, so the linked folder is safe. | `cmd /c rmdir "<sibling folder>\<folder>"`, then delete the empty folder in Explorer. |
 
 **Built into Claude Code.** `claude --worktree <name>`, or asking Claude to "work in a worktree", makes the worktree for you in `.claude/worktrees/<name>/` on a branch `worktree-<name>`. A `.worktreeinclude` file in the project (`.gitignore` syntax) lists the gitignored files to copy in. When the session ends, Claude asks whether to keep or remove the worktree; merging is still yours. Two catches:
 - It branches from GitHub's `main` (`origin/main`), so unpushed commits are missing unless the project's settings have `"worktree": {"baseRef": "head"}`.
