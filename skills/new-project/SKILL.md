@@ -25,7 +25,8 @@ Show the file list with one line each, and write after the user says yes.
 - **CLAUDE.md** (under ~5 KB). Sections:
   - Goal.
   - User and environment: OS, language version, shell (PowerShell in VS Code), "real paths: docs/local.md (gitignored)".
-  - Working style: the checks and their commands, one to-do per chat, commit after each working step, end a step with the finish-step skill.
+  - Working style: one to-do per chat, built with the /todo skill ("Build To do N"); commit after each working step; end a step with the finish-step skill.
+  - Build specifics (read by the /todo skill), a few lines: Checks (fast ones after edits, e.g. lint; slow ones once per step, e.g. tests and type check; each with its command and rough time); Docs to update when behaviour changes (README.md for headline features and install steps, plus any help texts); Must keep working (the main things the user relies on; empty at first); Review checklist ("none yet: the built-in code-review skill"; add docs/review.md once the project has its own rules to check).
   - Status: "Next:" the first to-do.
   - Decisions: empty, with "decisions go here with their reason".
   - Project docs: docs/local.md, docs/todo.md.
@@ -53,7 +54,7 @@ Give complete, copy-ready PowerShell commands with the real folder path. Never r
 - GitHub: the user creates an empty repo on github.com (private unless they say otherwise; no README or .gitignore, so the first push doesn't conflict). Then give `git remote add origin https://HaminKo@github.com/OWNER/REPO.git` and `git push -u origin main`, with OWNER and REPO filled in. The login in the URL picks the HaminKo login, also for repos owned by an organization.
 
 ## 5. Check
-Tell the user to start a new chat in the project and ask "Which CLAUDE.md files and skills did you load?" It should name the project's CLAUDE.md, ~/.claude/CLAUDE.md and finish-step.
+Tell the user to start a new chat in the project and ask "Which CLAUDE.md files and skills did you load?" It should name the project's CLAUDE.md, ~/.claude/CLAUDE.md, finish-step and todo.
 
 ## finish-step template
 ```markdown
@@ -68,11 +69,11 @@ Phase 1 runs when the user says the whole step is tested. Phase 2 runs only when
 
 ## Phase 1: docs and commit message
 Only when the user has tested the whole step; if part of the test failed, fix that first.
-- Run the checks; all must pass: [this project's check commands].
+- Run the checks in CLAUDE.md "Build specifics"; all must pass.
 - Check the changed files for anything on the "Never in tracked files" list in CLAUDE.md.
 - Finished to-do: remove its entry from docs/todo.md (numbers are never reused) and update "Next:" in CLAUDE.md Status.
 - One step of a bigger to-do: update its Progress list (what was built, choices, test results, what the next step does).
-- Update the docs the change affects: README.md only for headline features or install steps; [this project's other docs].
+- Update the docs the change affects (CLAUDE.md "Build specifics": Docs to update).
 - Give the commit message as plain text in a code block.
 - Say what comes next: the next step or to-do, and the short message to start it in a new chat.
 
