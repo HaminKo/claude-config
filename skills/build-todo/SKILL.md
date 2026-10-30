@@ -1,6 +1,6 @@
 ---
-name: todo
-description: Build a to-do from the project's to-do list (docs/todo.md, or docs/todo/NN-name.md for a big one), one step per chat. Questions and a plan first, then small steps, checks, a review, and a test checklist for the user. Use when the user types /todo N, or says "Build To do N", "Build To do N, step X" or "New feature: <goal>".
+name: build-todo
+description: Build a to-do from the project's to-do list (docs/todo.md, or docs/todo/NN-name.md for a big one), one step per chat. Questions and a plan first, then small steps, checks, a review, and a test checklist for the user. Use when the user types /build-todo N, or says "Build To do N", "Build To do N, step X" or "New feature: <goal>".
 argument-hint: "<to-do number> [step]"
 ---
 
@@ -15,7 +15,7 @@ The project's details come from the "## Build specifics" section of its CLAUDE.m
 ## 1. Start
 - Read the to-do: its entry in docs/todo.md, or its own file docs/todo/NN-name.md with its Progress list if earlier steps were built.
 - Read what its "Read first" names, only the parts that matter: grep for a heading or function, then read that line range, not whole files.
-- "New feature: <goal>" with no to-do yet: write the to-do first with the template in docs/todo.md ("Writing a to-do"), show it, and go on when the user agrees.
+- "New feature: <goal>" with no to-do yet: write the to-do first with the add-todo skill, and go on when the user agrees.
 
 ## 2. Questions and plan (no code yet)
 - Look at the code and the references first, so you only ask what they don't answer.
