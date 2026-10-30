@@ -37,8 +37,8 @@ The project's details come from the "## Build specifics" section of its CLAUDE.m
 
 ## 5. Review
 Before the user tests, so the fixes get tested too. Skip it for docs-only changes.
-- With a review checklist in Build specifics: under ~50 changed lines, review the diff yourself with it. Bigger: a fresh general-purpose subagent that hasn't seen the work, briefed with the checklist, the to-do's goal, and how to get the diff (git diff; git status --short for new files, read whole). It edits nothing and returns findings, most severe first, each marked must-fix or note.
-- Without a checklist: the built-in code-review skill on the current diff, at medium effort.
+- With a review checklist in Build specifics: under ~50 changed lines, review the diff yourself with it. Bigger, or any change that deletes, moves, renames or overwrites the user's files, or touches the project's safety rules (CLAUDE.md Decisions), whatever its size: a fresh general-purpose subagent that hasn't seen the work, briefed with the checklist, the to-do's goal, and how to get the diff (git diff; git status --short for new files, read whole). It edits nothing and returns findings, most severe first, each marked must-fix or note.
+- Without a checklist: the built-in code-review skill on the current diff, at medium effort (high for a change that deletes, moves, renames or overwrites the user's files).
 - Fix the must-fix findings and re-run the affected checks. Tell the user in one or two lines what the review found and what was fixed or left.
 
 ## 6. Hand over for testing
