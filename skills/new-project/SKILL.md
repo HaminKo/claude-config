@@ -25,7 +25,7 @@ Show the file list with one line each, and write after the user says yes.
 - **CLAUDE.md** (under ~5 KB). Sections:
   - Goal.
   - User and environment: OS, language version, shell (PowerShell in VS Code), "real paths: docs/local.md (gitignored)".
-  - Working style: one to-do per chat, built with the /build-todo skill ("Build To do N"), new ones written with /add-todo; commit after each working step; end a step with the finish-step skill.
+  - Working style: one to-do per chat, built with the /build-todo skill (`/build-todo N`, or `/build-todo N, step B` for one step of a bigger to-do), new ones written with /add-todo; commit after each working step; end a step with the finish-step skill.
   - Build specifics (read by the /build-todo skill), a few lines: Checks (fast ones after edits, e.g. lint; slow ones once per step, e.g. tests and type check; each with its command and rough time); Docs to update when behaviour changes (README.md for headline features, install and run steps, and Credits, plus any help texts; when a README section grows past about a screen, move it into docs/NAME.md and link it from the README); Must keep working (the main things the user relies on; empty at first); Review checklist ("none yet: the built-in code-review skill"; add docs/review.md once the project has its own rules to check).
   - Status: "Next:" the first to-do.
   - Decisions: one line per decision a chat must follow, with "reasons, who decided and what was rejected: docs/decisions.md"; empty at first.
@@ -79,7 +79,7 @@ Only when the user has tested the whole step; if part of the test failed, fix th
 - Check that this step's findings, dead ends and decisions are written down: docs/research/ and docs/decisions.md.
 - If the step added anything made by someone else (a library, tool, asset, or copied or adapted code), add it to README.md "Credits" with its author, license and link.
 - Give the commit message as plain text in a code block.
-- Say what comes next: the next step or to-do, and the short message to start it in a new chat.
+- Say what comes next: the next step or to-do, and the command to start it in a new chat, in its own code block: `/build-todo N`, or `/build-todo N, step B` for the next step of a bigger to-do.
 
 ## Phase 2: commit (only when the user says "commit")
 Other Claude sessions may be editing this folder at the same time.

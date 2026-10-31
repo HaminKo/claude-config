@@ -6,7 +6,7 @@ argument-hint: "<to-do number> [step]"
 
 # Build a to-do
 
-Arguments: $ARGUMENTS (a to-do number, optionally a step, e.g. "7" or "7 B"). With no number, take "Next:" from the Status section of CLAUDE.md and confirm it with the user.
+Arguments: $ARGUMENTS (a to-do number, optionally a step, e.g. "7", "7 B" or "7, step B"). With no number, take "Next:" from the Status section of CLAUDE.md and confirm it with the user.
 
 If the project's CLAUDE.md describes its own build process (for example a "Feature sessions" section), follow that instead of this skill.
 
@@ -20,7 +20,7 @@ The project's details come from the "## Build specifics" section of its CLAUDE.m
 ## 2. Questions and plan (no code yet)
 - Look at the code and the references first, so you only ask what they don't answer.
 - In one message: the to-do's open questions plus any new ones, each with a suggested answer, so "go with your suggestions" is a valid reply. Then a short plan: the steps, a size per step (files, rough lines), what existing code is reused, which docs or help texts change, and how each step is tested.
-- Split a to-do into steps (one chat each: "Build To do N, step B") when it's bigger than ~300 changed lines or gives the user more than one thing to test. Write the steps into a Progress list in the to-do's own file (move a list entry into docs/todo/NN-name.md for that).
+- Split a to-do into steps (one chat each, started with `/build-todo N, step B`) when it's bigger than ~300 changed lines or gives the user more than one thing to test. Write the steps into a Progress list in the to-do's own file (move a list entry into docs/todo/NN-name.md for that).
 - Wait for the answers.
 
 ## 3. Build
@@ -44,4 +44,4 @@ Before the user tests, so the fixes get tested too. Skip it for docs-only change
 ## 6. Hand over for testing
 - A few lines: what was built, which checks ran and their results, the review in one line.
 - A numbered test checklist for the user: what to do and what they should see. Include behaviour that must keep working (Build specifics) when the change touches it. Commands are copy-ready with real paths from docs/local.md.
-- Then wait. When the user says the step is tested, or says "commit" for a check-in commit, use the project's finish-step skill. If the project has none, update the to-do's Progress list and give the commit message as plain text in a code block.
+- Then wait. When the user says the step is tested, or says "commit" for a check-in commit, use the project's finish-step skill. If the project has none, update the to-do's Progress list, give the commit message as plain text in a code block, and give the command for the next chat in its own code block: `/build-todo N`, or `/build-todo N, step B` for the next step.
