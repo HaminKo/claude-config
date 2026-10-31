@@ -7,6 +7,9 @@
 !/settings.json
 !/skills/
 !/guides/
+!/hooks/
+/hooks/*.log
+/hooks/notify.off
 # Managed by the Claude app, not by hand
 /skills/synced/
 /skills/.trash/
