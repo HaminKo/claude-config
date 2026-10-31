@@ -32,7 +32,7 @@ Show the file list with one line each, and write after the user says yes.
   - Status: "Next:" the first to-do.
   - Decisions: one line per decision a chat must follow, with "reasons, who decided and what was rejected: docs/decisions.md"; empty at first.
   - Project docs: README.md, docs/local.md, docs/todo.md, docs/decisions.md, docs/research/ (one file per topic).
-  - Never in tracked files: the answer to question 3 (personal paths always; they go in docs/local.md).
+  - Never in tracked files: the answer to question 3 (personal paths always; they go in docs/local.md), and the GitHub login used for pushes, described without naming it: "it goes in docs/local.md; current files only, old commits that hold it are fine".
 - **README.md** (short; it's the page GitHub shows, so write it for a private project too): the name and goal in a few sentences, status, how to install and run it (generic commands; real paths go in docs/local.md), and "## Credits": the original authors if the project builds on someone else's work, plus the tools, libraries and assets it uses, each with its author, license and link. If an existing README is there, ask before changing it.
 - **.gitignore**: docs/local.md, .claude/settings.local.json, and the language's usual entries (Python: __pycache__/, *.pyc, .venv/, .ruff_cache/). Write it before docs/local.md.
 - **docs/decisions.md**: a title, one line with the entry format (date and decision as the heading; reason, who decided, what was rejected and why), newest first, no entries yet. docs/research/ is made with its first file.

@@ -30,3 +30,4 @@ Other Claude sessions may work in the same folder at the same time.
 - Commit only when I ask, and never push unless I ask. Reason: I push myself after checking.
 - Never change a repo's git config (user.name, user.email): each repo has its own identity.
 - Never put personal paths (my user folder, drive paths) in tracked files or commit messages; machine-specific paths go in a gitignored local notes file such as docs/local.md.
+- The same for my GitHub login (HaminKo): write "gh (signed in)" or "a personal account" and name it in docs/local.md. Old commits that hold it are fine; no clean repo or history rewrite for it. Reason: a casual reader of the public repo shouldn't see which personal account is behind it; someone digging through history may.
