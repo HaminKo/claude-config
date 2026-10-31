@@ -14,16 +14,18 @@ Sets up a project folder the way the user likes to work. The user's personal rul
 
 ## 2. Ask
 Ask these in one message, each with a suggested answer (from the code where possible), then wait:
-1. Name and goal in one or two sentences; who uses it.
+1. Name and goal in one or two sentences; who uses it; and what it will not do in the first version (a short list).
 2. Language and tools: how to run it, and the checks (tests, lint, type check) with their commands. For Python, suggest ruff and pyright.
 3. Public later, or private? If public: what must never appear in tracked files (real name, personal paths, a pseudonym to keep separate).
 4. "Which name and email should this repo's commits use?" Don't suggest or list any identity; the user decides.
 5. Folders outside the project that it uses (data, test files), for docs/local.md.
 
+Before writing files, check the plan: if a known tool or library already does most of this, or the first version looks too big, say so plainly with an alternative (use it, build on it, or cut the scope) and let the user decide. If you aren't sure what exists, offer a research to-do as #1 (similar tools and what to reuse, written in docs/research/prior-art.md) before the skeleton.
+
 ## 3. Write the files
 Show the file list with one line each, and write after the user says yes.
 - **CLAUDE.md** (under ~5 KB). Sections:
-  - Goal.
+  - Goal, and "Don't build what's under 'Later' in docs/todo.md until asked."
   - User and environment: OS, language version, shell (PowerShell in VS Code), "real paths: docs/local.md (gitignored)".
   - Working style: one to-do per chat, built with the /build-todo skill (`/build-todo N`, or `/build-todo N, step B` for one step of a bigger to-do), new ones written with /add-todo; commit after each working step; end a step with the finish-step skill.
   - Build specifics (read by the /build-todo skill), a few lines: Checks (fast ones after edits, e.g. lint; slow ones once per step, e.g. tests and type check; each with its command and rough time); Docs to update when behaviour changes (README.md for headline features, install and run steps, and Credits, plus any help texts; when a README section grows past about a screen, move it into docs/NAME.md and link it from the README); Must keep working (the main things the user relies on; empty at first); Review checklist ("none yet: the built-in code-review skill"; add docs/review.md once the project has its own rules to check).
@@ -35,7 +37,7 @@ Show the file list with one line each, and write after the user says yes.
 - **.gitignore**: docs/local.md, .claude/settings.local.json, and the language's usual entries (Python: __pycache__/, *.pyc, .venv/, .ruff_cache/). Write it before docs/local.md.
 - **docs/decisions.md**: a title, one line with the entry format (date and decision as the heading; reason, who decided, what was rejected and why), newest first, no entries yet. docs/research/ is made with its first file.
 - **docs/local.md**: this PC's paths (project, data folders) and copy-ready PowerShell commands with real quoted paths for running the project and its checks.
-- **docs/todo.md**: "Next number: 1", an empty "## To do" list, and "## Writing a to-do" with this template:
+- **docs/todo.md**: "Next number: 1", an empty "## To do" list, "## Later, only if the user asks" with the answer to question 1's not-in-the-first-version list, and "## Writing a to-do" with this template:
   - Title with size (small / medium / large) and the goal in the user's words.
   - Problem / Goal: what is wrong or wanted, with an example. For a bug or research to-do, also what the user has seen (it exists, where, what works) and what is already ruled out.
   - Read first: files and functions to look at, outside references.
