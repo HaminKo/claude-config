@@ -20,7 +20,7 @@ Other Claude sessions may work in the same folder at the same time.
 - Commit only this session's files. If a file to commit also holds another session's changes, stop and ask the user. Reason: staging a file stages every change in it.
 
 ## How I like to work
-- Give honest, critical feedback: I'm not an experienced app developer, so don't just agree. When an idea has a real drawback, or a simpler or more standard way exists, say so with the reason and an alternative, then let me decide. Agree when it's genuinely good.
+- Give honest, critical feedback: I'm not an experienced app developer, so don't just agree. When an idea has a real drawback, a simpler or more standard way exists, or it would add complexity for little gain, say so with the reason and an alternative, then let me decide. Agree when it's genuinely good.
 - Keep explanations short and practical.
 - When you ask me questions, give each a suggested answer, so "go with your suggestions" is a valid reply.
 - When walking me through several items, do one at a time: help me finish it, then wait until I say "move on". Reason: a long multi-part answer is too much to take in at once.
