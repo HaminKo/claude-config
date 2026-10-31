@@ -1,6 +1,6 @@
 ---
 name: new-project
-description: Set up a new or existing project folder for working with Claude Code (a short CLAUDE.md, a gitignored docs/local.md, a to-do list, a finish-step skill, and the git and GitHub steps). Only when the user types /new-project.
+description: Set up a new or existing project folder for working with Claude Code (a short CLAUDE.md, a README with credits, a gitignored docs/local.md, a to-do list, a decisions file, a finish-step skill, and the git and GitHub steps). Only when the user types /new-project.
 disable-model-invocation: true
 ---
 
@@ -26,12 +26,14 @@ Show the file list with one line each, and write after the user says yes.
   - Goal.
   - User and environment: OS, language version, shell (PowerShell in VS Code), "real paths: docs/local.md (gitignored)".
   - Working style: one to-do per chat, built with the /build-todo skill ("Build To do N"), new ones written with /add-todo; commit after each working step; end a step with the finish-step skill.
-  - Build specifics (read by the /build-todo skill), a few lines: Checks (fast ones after edits, e.g. lint; slow ones once per step, e.g. tests and type check; each with its command and rough time); Docs to update when behaviour changes (README.md for headline features and install steps, plus any help texts); Must keep working (the main things the user relies on; empty at first); Review checklist ("none yet: the built-in code-review skill"; add docs/review.md once the project has its own rules to check).
+  - Build specifics (read by the /build-todo skill), a few lines: Checks (fast ones after edits, e.g. lint; slow ones once per step, e.g. tests and type check; each with its command and rough time); Docs to update when behaviour changes (README.md for headline features, install and run steps, and Credits, plus any help texts; when a README section grows past about a screen, move it into docs/NAME.md and link it from the README); Must keep working (the main things the user relies on; empty at first); Review checklist ("none yet: the built-in code-review skill"; add docs/review.md once the project has its own rules to check).
   - Status: "Next:" the first to-do.
-  - Decisions: empty, with "decisions go here with their reason".
-  - Project docs: docs/local.md, docs/todo.md.
+  - Decisions: one line per decision a chat must follow, with "reasons, who decided and what was rejected: docs/decisions.md"; empty at first.
+  - Project docs: README.md, docs/local.md, docs/todo.md, docs/decisions.md, docs/research/ (one file per topic).
   - Never in tracked files: the answer to question 3 (personal paths always; they go in docs/local.md).
+- **README.md** (short; it's the page GitHub shows, so write it for a private project too): the name and goal in a few sentences, status, how to install and run it (generic commands; real paths go in docs/local.md), and "## Credits": the original authors if the project builds on someone else's work, plus the tools, libraries and assets it uses, each with its author, license and link. If an existing README is there, ask before changing it.
 - **.gitignore**: docs/local.md, .claude/settings.local.json, and the language's usual entries (Python: __pycache__/, *.pyc, .venv/, .ruff_cache/). Write it before docs/local.md.
+- **docs/decisions.md**: a title, one line with the entry format (date and decision as the heading; reason, who decided, what was rejected and why), newest first, no entries yet. docs/research/ is made with its first file.
 - **docs/local.md**: this PC's paths (project, data folders) and copy-ready PowerShell commands with real quoted paths for running the project and its checks.
 - **docs/todo.md**: "Next number: 1", an empty "## To do" list, and "## Writing a to-do" with this template:
   - Title with size (small / medium / large) and the goal in the user's words.
@@ -50,7 +52,7 @@ Show the file list with one line each, and write after the user says yes.
 Give complete, copy-ready PowerShell commands with the real folder path. Never run git config yourself.
 - New repo: `git init -b main`, then `git config user.name ...` and `git config user.email ...` with the answer to question 4 (never --global).
 - Existing repo without its own identity: only the two git config lines.
-- First commit: when the user says "commit", stage the new files by explicit path and commit ("Project setup: CLAUDE.md, docs, finish-step skill").
+- First commit: when the user says "commit", stage the new files by explicit path and commit ("Project setup: CLAUDE.md, README, docs, finish-step skill").
 - GitHub: the user creates an empty repo on github.com (private unless they say otherwise; no README or .gitignore, so the first push doesn't conflict). Then give `git remote add origin https://HaminKo@github.com/OWNER/REPO.git` and `git push -u origin main`, with OWNER and REPO filled in. The login in the URL picks the HaminKo login, also for repos owned by an organization.
 
 ## 5. Check
@@ -74,6 +76,8 @@ Only when the user has tested the whole step; if part of the test failed, fix th
 - Finished to-do: remove its entry from docs/todo.md (numbers are never reused) and update "Next:" in CLAUDE.md Status.
 - One step of a bigger to-do: update its Progress list (what was built, choices, test results, what the next step does).
 - Update the docs the change affects (CLAUDE.md "Build specifics": Docs to update).
+- Check that this step's findings, dead ends and decisions are written down: docs/research/ and docs/decisions.md.
+- If the step added anything made by someone else (a library, tool, asset, or copied or adapted code), add it to README.md "Credits" with its author, license and link.
 - Give the commit message as plain text in a code block.
 - Say what comes next: the next step or to-do, and the short message to start it in a new chat.
 

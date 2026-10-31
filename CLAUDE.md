@@ -5,6 +5,14 @@
 - In findings, say which numbers were measured and which were estimated. Reason: an estimate was once 7x too high.
 - When the user says something exists or works somewhere, treat it as a fact to explain, not a claim to check.
 
+## Research and decisions are written down
+A new chat knows only what's in the files.
+- Write findings and decisions into the project's docs when they happen, not only at the end of a step: anything a later chat would otherwise redo or undo, dead ends included (what was tried, why it failed).
+- Decisions: docs/decisions.md, one entry each: date, the decision, the reason, who decided, and what was rejected and why. The project's CLAUDE.md keeps only the rule that follows from it, in one line.
+- Research: docs/research/TOPIC.md, one file per topic, updated in place, with sources. When a finding turns out wrong, mark it wrong and say what replaced it instead of deleting it.
+- Before researching a topic, read its file and docs/decisions.md.
+- A project's CLAUDE.md can name other places for these.
+
 ## Parallel sessions
 Other Claude sessions may work in the same folder at the same time.
 - At the start, run git status. If files this task will change already have uncommitted changes, tell the user before starting. Reason: two sessions editing one file mix their changes.
